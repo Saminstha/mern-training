@@ -1,0 +1,65 @@
+{
+  "students": [
+    {
+      "id": "1",
+      "name": "Aarav Sharma",
+      "role": "Frontend",
+      "avatar": "https://i.pravatar.cc/300?img=20"
+    },
+    {
+      "id": "2",
+      "name": "Priya Thapa",
+      "role": "Backend",
+      "avatar": "https://i.pravatar.cc/150?img=5"
+    },
+    {
+      "id": "3",
+      "name": "Bikash Rai",
+      "role": "Fullstack",
+      "avatar": "https://i.pravatar.cc/150?img=12"
+    },
+    {
+      "id": "4",
+      "name": "Sita Gurung",
+      "role": "Frontend",
+      "avatar": "https://i.pravatar.cc/150?img=20"
+    },
+    {
+      "id": "5",
+      "name": "Rohan KC",
+      "role": "Backend",
+      "avatar": "https://i.pravatar.cc/150?img=32"
+    },
+    {
+      "name": "sadas",
+      "role": "dsasd",
+      "avatar": "https://i.pravatar.cc/300?img=5",
+      "id": "xTenxgZEwB0"
+    },
+    {
+      "name": "dasd",
+      "role": "asdasd",
+      "avatar": "https://i.pravatar.cc/300?img=32",
+      "id": "6MRAa_Sm4LQ"
+    },
+    {
+      "name": "sdasd",
+      "role": "dasdasd",
+      "avatar": "https://i.pravatar.cc/300?img=5",
+      "id": "gyw7ur2Bcuc"
+    },
+    {
+      "name": "dasda",
+      "role": "dada",
+      "avatar": "https://i.pravatar.cc/300?img=1",
+      "id": "ohpVZOOE-Yo"
+    },
+    {
+      "name": "av",
+      "role": "sav",
+      "avatar": "https://i.pravatar.cc/300?img=1",
+      "id": "8l_g6-OkDYA"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

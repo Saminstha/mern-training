@@ -1,70 +1,257 @@
-.app {
-  max-width: 720px;
-  margin: 48px auto;
-  padding: 24px 32px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-family: system-ui, sans-serif;
-  text-align: left;
+/* ---------- Global ---------- */
+
+* {
+  box-sizing: border-box;
 }
+
+body {
+  margin: 0;
+  background: #f5f6fb;
+  font-family: Inter, system-ui, sans-serif;
+}
+
+.app {
+  max-width: 1150px;
+  margin: 50px auto;
+  padding: 30px;
+}
+
+/* ---------- Header ---------- */
 
 .app-header h1 {
-  font-size: 22px;
-  margin-bottom: 16px;
+  font-size: 40px;
+  margin-bottom: 30px;
+  color: #222;
 }
 
-.card-grid {
+/* ---------- Form ---------- */
+
+.add-student-form {
+  background: white;
+  padding: 30px;
+  border-radius: 18px;
+  box-shadow: 0 8px 30px rgba(0,0,0,.08);
+  margin-bottom: 40px;
+}
+
+.form-row {
   display: flex;
-  flex-wrap: wrap;
-  gap: 24px;
-  margin: 0 0 16px;
+  gap: 16px;
+  margin-bottom: 24px;
 }
 
-.card {
-  display: flex;
-  flex-direction: column;
-  width: 180px;
-  border: 1px solid #e2e2e2;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.card_image {
-  width: 100%;
-  height: 140px;
-  object-fit: cover;
-}
-
-.card_body {
+.form-row input {
   flex: 1;
-  padding: 12px;
 }
 
-.card_name {
-  font-size: 16px;
-  margin: 0 0 4px;
-}
-
-.card_role {
-  font-size: 13px;
-  color: #666;
-  margin: 0;
-}
-
-.card_footer {
-  padding: 12px;
-  border-top: 1px solid #eee;
-}
-
-.card_button {
-  display: inline-block;
+.add-student-form input,
+.add-student-form select {
   width: 100%;
-  padding: 6px 0;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 17px;
+  transition: .2s;
+}
+
+.add-student-form input:focus,
+.add-student-form select:focus {
+  outline: none;
+  border-color: #635bff;
+  box-shadow: 0 0 0 4px rgba(99,91,255,.15);
+}
+
+/* ---------- Avatar Picker ---------- */
+
+.avatar-picker {
   border: none;
-  border-radius: 4px;
-  background: #2e5c8a;
-  color: #fff;
-  font-size: 13px;
+  padding: 0;
+  margin: 0 0 25px;
+}
+
+.avatar-picker legend {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+.avatar-options {
+  display: flex;
+  gap: 15px;
+}
+
+.avatar-option {
   cursor: pointer;
 }
 
+.avatar-option input {
+  display: none;
+}
+
+.avatar-option img {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid transparent;
+  transition: .2s;
+}
+
+.avatar-option:hover img {
+  transform: scale(1.08);
+}
+
+.avatar-option input:checked + img {
+  border-color: #635bff;
+  transform: scale(1.08);
+}
+
+/* ---------- Buttons ---------- */
+
+.btn,
+.btn--submit,
+.btn--cancel {
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: all 0.25s ease;
+}
+
+/* Form Buttons */
+
+.btn--submit {
+  background: #635bff;
+  color: white;
+  padding: 14px 28px;
+}
+
+.btn--submit:hover {
+  background: #5147f5;
+}
+
+.btn--cancel {
+  background: #6b7280;
+  color: white;
+  padding: 14px 28px;
+}
+
+.btn--cancel:hover {
+  background: #4b5563;
+}
+
+/* Card Buttons */
+
+.card__footer {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.card__footer .btn {
+  flex: 1;
+  padding: 12px 0;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+.edit-btn {
+  background: #2563eb;
+  color: white;
+}
+
+.edit-btn:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+.delete-btn {
+  background: #ef4444;
+  color: white;
+}
+
+.delete-btn:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
+}
+
+/* ---------- Student Cards ---------- */
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px,1fr));
+  gap: 28px;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0,0,0,.08);
+  transition: .25s;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+}
+
+.card__image {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.card__body {
+  padding: 20px;
+}
+
+.card__name {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.card__role {
+  margin-top: 10px;
+  color: #777;
+  font-size: 17px;
+}
+
+.card__footer {
+  padding: 20px;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width:768px){
+
+  .form-row{
+    flex-direction:column;
+  }
+
+  .card-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
+.form-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.btn--cancel {
+  background: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 28px;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.btn--cancel:hover {
+  background: #5a6268;
+}

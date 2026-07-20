@@ -1,40 +1,70 @@
-import { useEffect, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import StudentCard from "./StudentCard";
-
-interface Student {
-  id: number;
-  name: string;
-  role: string;
-  avatar: string;
-}
-
-const URL = "http://10.10.100.81:3000/students";
+import AddStudentForm from "./AddStudentForm";
+import useStudents, { type Student } from "../hooks/useStudents";
 
 function CardGrid() {
-  const [students, setStudents] = useState<Student[]>([]);
+  const {
+    students,
+    loading,
+    error,
+    addStudent,
+    deleteStudent,
+    updateStudent,
+  } = useStudents();
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const response = await fetch(URL);
-        const data: Student[] = await response.json();
-        setStudents(data);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
+  const [editingStudent, setEditingStudent] = useState<Student | null>(null);
+
+  const handleEdit = useCallback((student: Student): void => {
+    setEditingStudent(student);
   }, []);
 
+  const handleDelete = useCallback(
+    (id: number): void => {
+      deleteStudent(id);
+    },
+    [deleteStudent]
+  );
+
+  const clearEditing = useCallback((): void => {
+    setEditingStudent(null);
+  }, []);
+
+  const sortedStudents = useMemo(() => {
+    return [...students].sort((a, b) => a.name.localeCompare(b.name));
+  }, [students]);
+
+  if (loading) {
+    return <p className="status-message">Loading students...</p>;
+  }
+
+  if (error) {
+    return (
+      <p className="status-message status-message--error">
+        {error}
+      </p>
+    );
+  }
+
   return (
-    <div className="card-grid">
-      {students.map((student) => {
-        return (
+    <div>
+      <AddStudentForm
+        onAddStudent={addStudent}
+        onUpdateStudent={updateStudent}
+        editingStudent={editingStudent}
+        clearEditing={clearEditing}
+      />
+
+      <div className="card-grid">
+        {sortedStudents.map((student) => (
           <StudentCard
             key={student.id}
             student={student}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
           />
-        );
-      })}
+        ))}
+      </div>
     </div>
   );
 }
