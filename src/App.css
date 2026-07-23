@@ -8,20 +8,73 @@ body {
   margin: 0;
   background: #f5f6fb;
   font-family: Inter, system-ui, sans-serif;
+  color: #222;
 }
 
 .app {
-  max-width: 1150px;
-  margin: 50px auto;
-  padding: 30px;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 24px;
 }
 
 /* ---------- Header ---------- */
 
+.app-header {
+  margin-bottom: 24px;
+}
+
 .app-header h1 {
-  font-size: 40px;
+  font-size: 58px;
+  font-weight: 700;
+  margin: 0;
+  color: #111827;
+}
+
+/* ---------- Navigation ---------- */
+
+.app-nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #2563eb;
+  font-size: 17px;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.nav-link:hover {
+  color: #1d4ed8;
+}
+
+.nav-link--active {
+  font-weight: 700;
+  border-bottom: 2px solid #2563eb;
+  padding-bottom: 4px;
+}
+
+.app-nav button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #2563eb;
+  font-size: 17px;
+  font-weight: 500;
+  padding: 0;
+}
+
+.app-nav button:hover {
+  color: #1d4ed8;
+}
+
+/* ---------- Page Actions ---------- */
+
+.page-actions {
   margin-bottom: 30px;
-  color: #222;
 }
 
 /* ---------- Form ---------- */
@@ -30,7 +83,7 @@ body {
   background: white;
   padding: 30px;
   border-radius: 18px;
-  box-shadow: 0 8px 30px rgba(0,0,0,.08);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
   margin-bottom: 40px;
 }
 
@@ -50,15 +103,15 @@ body {
   padding: 16px;
   border: 1px solid #ddd;
   border-radius: 10px;
-  font-size: 17px;
-  transition: .2s;
+  font-size: 16px;
+  transition: 0.2s;
 }
 
 .add-student-form input:focus,
 .add-student-form select:focus {
   outline: none;
   border-color: #635bff;
-  box-shadow: 0 0 0 4px rgba(99,91,255,.15);
+  box-shadow: 0 0 0 4px rgba(99, 91, 255, 0.15);
 }
 
 /* ---------- Avatar Picker ---------- */
@@ -91,10 +144,10 @@ body {
 .avatar-option img {
   width: 58px;
   height: 58px;
-  border-radius: 50%;
   object-fit: cover;
+  border-radius: 50%;
   border: 3px solid transparent;
-  transition: .2s;
+  transition: 0.25s;
 }
 
 .avatar-option:hover img {
@@ -111,15 +164,21 @@ body {
 .btn,
 .btn--submit,
 .btn--cancel {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
   border: none;
   cursor: pointer;
+  text-decoration: none;
   border-radius: 10px;
   font-size: 15px;
   font-weight: 600;
   transition: all 0.25s ease;
 }
 
-/* Form Buttons */
+.btn {
+  padding: 12px 22px;
+}
 
 .btn--submit {
   background: #635bff;
@@ -141,65 +200,35 @@ body {
   background: #4b5563;
 }
 
-/* Card Buttons */
-
-.card__footer {
+.form-buttons {
   display: flex;
   gap: 12px;
-  margin-top: 20px;
-}
-
-.card__footer .btn {
-  flex: 1;
-  padding: 12px 0;
-  font-size: 15px;
-  font-weight: 600;
-  border-radius: 8px;
-}
-
-.edit-btn {
-  background: #2563eb;
-  color: white;
-}
-
-.edit-btn:hover {
-  background: #1d4ed8;
-  transform: translateY(-2px);
-}
-
-.delete-btn {
-  background: #ef4444;
-  color: white;
-}
-
-.delete-btn:hover {
-  background: #dc2626;
-  transform: translateY(-2px);
 }
 
 /* ---------- Student Cards ---------- */
 
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px,1fr));
-  gap: 28px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 30px;
 }
 
 .card {
   background: white;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 6px 20px rgba(0,0,0,.08);
-  transition: .25s;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  transition: all 0.25s ease;
 }
 
 .card:hover {
   transform: translateY(-6px);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.12);
 }
 
 .card__image {
   width: 100%;
-  height: 220px;
+  height: 230px;
   object-fit: cover;
 }
 
@@ -209,49 +238,101 @@ body {
 
 .card__name {
   margin: 0;
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 700;
 }
 
 .card__role {
   margin-top: 10px;
-  color: #777;
-  font-size: 17px;
+  color: #6b7280;
+  font-size: 16px;
 }
 
 .card__footer {
+  display: flex;
+  gap: 12px;
   padding: 20px;
+}
+
+.card__footer .btn {
+  flex: 1;
+}
+
+/* ---------- Card Buttons ---------- */
+
+.edit-btn {
+  background: #2563eb;
+  color: white;
+}
+
+.edit-btn:hover {
+  background: #1d4ed8;
+}
+
+.delete-btn {
+  background: #ef4444;
+  color: white;
+}
+
+.delete-btn:hover {
+  background: #dc2626;
+}
+
+/* ---------- Status Messages ---------- */
+
+.status-message {
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.status-message h2 {
+  margin-top: 0;
+}
+
+.status-message p {
+  color: #666;
+}
+
+/* ---------- Profile Page ---------- */
+
+.profile-page {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.profile-card {
+  width: 350px;
 }
 
 /* ---------- Responsive ---------- */
 
-@media (max-width:768px){
-
-  .form-row{
-    flex-direction:column;
+@media (max-width: 768px) {
+  .app {
+    padding: 20px;
   }
 
-  .card-grid{
-    grid-template-columns:1fr;
+  .app-header h1 {
+    font-size: 42px;
   }
 
-}
+  .app-nav {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
 
-.form-buttons {
-  display: flex;
-  gap: 12px;
-}
+  .form-row {
+    flex-direction: column;
+  }
 
-.btn--cancel {
-  background: #6c757d;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  padding: 14px 28px;
-  cursor: pointer;
-  transition: .2s;
-}
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
 
-.btn--cancel:hover {
-  background: #5a6268;
+  .card__footer {
+    flex-direction: column;
+  }
 }

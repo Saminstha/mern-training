@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 export interface Student {
-  id: number;
+  id: string;
   name: string;
   role: string;
   avatar: string;
@@ -59,7 +59,7 @@ function useStudents() {
     }
   };
 
-  const deleteStudent = async (id: number) => {
+  const deleteStudent = async (id: string) => {
     try {
       const response = await fetch(`${URL}/${id}`, {
         method: "DELETE",

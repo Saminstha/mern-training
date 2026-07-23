@@ -1,14 +1,13 @@
+import { Link } from "react-router-dom";
 import type { Student } from "../hooks/useStudents";
 
 interface StudentCardProps {
   student: Student;
-  onEdit: (student: Student) => void;
-  onDelete: (id: number) => void;
+  onDelete: (id: string) => void;
 }
 
 function StudentCard({
   student,
-  onEdit,
   onDelete,
 }: StudentCardProps) {
   return (
@@ -26,12 +25,12 @@ function StudentCard({
       </div>
 
       <div className="card__footer">
-        <button
+        <Link
+          to={`/students/${student.id}`}
           className="btn edit-btn"
-          onClick={() => onEdit(student)}
         >
-          Edit
-        </button>
+          View Profile
+        </Link>
 
         <button
           className="btn delete-btn"

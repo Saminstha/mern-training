@@ -1,34 +1,27 @@
-import { useCallback, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+import { useCallback, useMemo } from "react";
 import StudentCard from "./StudentCard";
-import AddStudentForm from "./AddStudentForm";
-import useStudents, { type Student } from "../hooks/useStudents";
+import type { Student } from "../hooks/useStudents";
 
-function CardGrid() {
-  const {
-    students,
-    loading,
-    error,
-    addStudent,
-    deleteStudent,
-    updateStudent,
-  } = useStudents();
+interface CardGridProps {
+  students: Student[];
+  loading: boolean;
+  error: string;
+  deleteStudent: (id: string) => Promise<void>;
+}
 
-  const [editingStudent, setEditingStudent] = useState<Student | null>(null);
-
-  const handleEdit = useCallback((student: Student): void => {
-    setEditingStudent(student);
-  }, []);
-
+function CardGrid({
+  students,
+  loading,
+  error,
+  deleteStudent,
+}: CardGridProps) {
   const handleDelete = useCallback(
-    (id: number): void => {
+    (id: string): void => {
       deleteStudent(id);
     },
     [deleteStudent]
   );
-
-  const clearEditing = useCallback((): void => {
-    setEditingStudent(null);
-  }, []);
 
   const sortedStudents = useMemo(() => {
     return [...students].sort((a, b) => a.name.localeCompare(b.name));
@@ -48,19 +41,17 @@ function CardGrid() {
 
   return (
     <div>
-      <AddStudentForm
-        onAddStudent={addStudent}
-        onUpdateStudent={updateStudent}
-        editingStudent={editingStudent}
-        clearEditing={clearEditing}
-      />
+      <div className="page-actions">
+        <Link to="/students/new" className="btn btn--submit">
+          Add Student
+        </Link>
+      </div>
 
       <div className="card-grid">
         {sortedStudents.map((student) => (
           <StudentCard
             key={student.id}
             student={student}
-            onEdit={handleEdit}
             onDelete={handleDelete}
           />
         ))}
