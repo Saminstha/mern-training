@@ -1,6 +1,20 @@
-import { useEffect, useRef, useState } from "react";
-import type { ChangeEvent, FormEvent } from "react";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import type { Student } from "../hooks/useStudents";
+
+interface AddStudentFormProps {
+  onAddStudent: (
+    student: Omit<Student, "id">
+  ) => Promise<void>;
+
+  onUpdateStudent: (
+    student: Student
+  ) => Promise<void>;
+
+  editingStudent: Student | null;
+
+  clearEditing: () => void;
+}
 
 const AVATAR_OPTIONS = [
   "https://i.pravatar.cc/300?img=1",
@@ -10,135 +24,151 @@ const AVATAR_OPTIONS = [
   "https://i.pravatar.cc/300?img=32",
 ];
 
-interface AddStudentFormProps {
-  onAddStudent: (student: Omit<Student, "id">) => Promise<void>;
-  onUpdateStudent: (student: Student) => Promise<void>;
-  editingStudent: Student | null;
-  clearEditing: () => void;
-}
-
 function AddStudentForm({
   onAddStudent,
   onUpdateStudent,
   editingStudent,
   clearEditing,
 }: AddStudentFormProps) {
-  const [name, setName] = useState("");
-  const [role, setRole] = useState("");
-  const [avatar, setAvatar] = useState(AVATAR_OPTIONS[0]);
-
-  const nameInputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    nameInputRef.current?.focus();
-  }, []);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors },
+  } = useForm<Omit<Student, "id">>({
+    defaultValues: {
+      name: "",
+      role: "",
+      avatar: AVATAR_OPTIONS[0],
+    },
+  });
 
   useEffect(() => {
     if (editingStudent) {
-      setName(editingStudent.name);
-      setRole(editingStudent.role);
-      setAvatar(editingStudent.avatar);
-      nameInputRef.current?.focus();
+      reset({
+        name: editingStudent.name,
+        role: editingStudent.role,
+        avatar: editingStudent.avatar,
+      });
+    } else {
+      reset({
+        name: "",
+        role: "",
+        avatar: AVATAR_OPTIONS[0],
+      });
     }
-  }, [editingStudent]);
+  }, [editingStudent, reset]);
 
-  function handleNameChange(event: ChangeEvent<HTMLInputElement>): void {
-    setName(event.target.value);
-  }
+  const selectedAvatar = watch("avatar");
 
-  function handleRoleChange(event: ChangeEvent<HTMLInputElement>): void {
-    setRole(event.target.value);
-  }
-
-  async function handleSubmit(
-    event: FormEvent<HTMLFormElement>
+  async function onSubmit(
+    data: Omit<Student, "id">
   ): Promise<void> {
-    event.preventDefault();
-
-    if (!name.trim()) return;
-
     if (editingStudent) {
       await onUpdateStudent({
-        id: editingStudent.id,
-        name: name.trim(),
-        role: role.trim() || "Unassigned",
-        avatar,
+        ...editingStudent,
+        ...data,
       });
 
       clearEditing();
     } else {
-      await onAddStudent({
-        name: name.trim(),
-        role: role.trim() || "Unassigned",
-        avatar,
+      await onAddStudent(data);
+
+      reset({
+        name: "",
+        role: "",
+        avatar: AVATAR_OPTIONS[0],
       });
     }
-
-    setName("");
-    setRole("");
-    setAvatar(AVATAR_OPTIONS[0]);
-
-    nameInputRef.current?.focus();
-  }
-
-  function handleCancel(): void {
-    clearEditing();
-    setName("");
-    setRole("");
-    setAvatar(AVATAR_OPTIONS[0]);
-    nameInputRef.current?.focus();
   }
 
   return (
-    <form className="add-student-form" onSubmit={handleSubmit}>
+    <form
+      className="add-student-form"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <div className="form-row">
-        <input
-          ref={nameInputRef}
-          type="text"
-          placeholder="Name"
-          value={name}
-          onChange={handleNameChange}
-          required
-        />
+        <div style={{ flex: 1 }}>
+          <input
+            type="text"
+            placeholder="Student Name"
+            {...register("name", {
+              required: "Name is required",
+            })}
+          />
 
-        <input
-          type="text"
-          placeholder="Role"
-          value={role}
-          onChange={handleRoleChange}
-        />
+          {errors.name && (
+            <p className="form-error">
+              {errors.name.message}
+            </p>
+          )}
+        </div>
+
+        <div style={{ flex: 1 }}>
+          <input
+            type="text"
+            placeholder="Role"
+            {...register("role", {
+              required: "Role is required",
+            })}
+          />
+
+          {errors.role && (
+            <p className="form-error">
+              {errors.role.message}
+            </p>
+          )}
+        </div>
       </div>
 
       <fieldset className="avatar-picker">
         <legend>Choose an avatar</legend>
 
         <div className="avatar-options">
-          {AVATAR_OPTIONS.map((url) => (
-            <label className="avatar-option" key={url}>
+          {AVATAR_OPTIONS.map((avatar) => (
+            <label
+              key={avatar}
+              className="avatar-option"
+            >
               <input
                 type="radio"
-                name="avatar"
-                value={url}
-                checked={avatar === url}
-                onChange={() => setAvatar(url)}
+                value={avatar}
+                {...register("avatar")}
               />
 
-              <img src={url} alt="Avatar option" />
+              <img
+                src={avatar}
+                alt="Avatar"
+                style={{
+                  border:
+                    selectedAvatar === avatar
+                      ? "3px solid #635bff"
+                      : "3px solid transparent",
+                }}
+              />
             </label>
           ))}
         </div>
       </fieldset>
 
       <div className="form-buttons">
-        <button type="submit" className="btn btn--submit">
-          {editingStudent ? "Update Student" : "Add Student"}
+        <button
+          type="submit"
+          className="btn--submit"
+        >
+          {editingStudent
+            ? "Update Student"
+            : "Add Student"}
         </button>
+
+        
 
         {editingStudent && (
           <button
             type="button"
-            className="btn btn--cancel"
-            onClick={handleCancel}
+            className="btn--cancel"
+            onClick={clearEditing}
           >
             Cancel
           </button>

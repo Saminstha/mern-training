@@ -29,12 +29,6 @@
       "name": "Rohan KC",
       "role": "Backend",
       "avatar": "https://i.pravatar.cc/150?img=32"
-    },
-    {
-      "name": "samin",
-      "role": "sasc",
-      "avatar": "https://i.pravatar.cc/300?img=1",
-      "id": "ioOo1Udazpk"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

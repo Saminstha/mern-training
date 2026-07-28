@@ -336,3 +336,11 @@ body {
     flex-direction: column;
   }
 }
+
+.form-error {
+  color: #ef4444;
+  font-size: 14px;
+  margin-top: 8px;
+  margin-bottom: 0;
+  font-weight: 500;
+}
