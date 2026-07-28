@@ -1,12 +1,6 @@
 {
   "students": [
     {
-      "id": "1",
-      "name": "Aarav Sharma",
-      "role": "Frontend",
-      "avatar": "https://i.pravatar.cc/300?img=20"
-    },
-    {
       "id": "2",
       "name": "Priya Thapa",
       "role": "Backend",
@@ -29,6 +23,12 @@
       "name": "Rohan KC",
       "role": "Backend",
       "avatar": "https://i.pravatar.cc/150?img=32"
+    },
+    {
+      "name": "dfsdf",
+      "role": "sdfsdfsd",
+      "avatar": "https://i.pravatar.cc/300?img=5",
+      "id": "m-wC_nB36z0"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

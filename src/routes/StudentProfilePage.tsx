@@ -1,3 +1,4 @@
+import Button from "@mui/material/Button";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import type { Student } from "../hooks/useStudents";
 
@@ -72,28 +73,31 @@ function StudentProfilePage({
         >
           {isAuthenticated && (
             <>
-              <Link
+              
+              <Button
+                variant="contained"
+                component={Link}
                 to={`/students/${currentStudent.id}/edit`}
-                className="btn edit-btn"
               >
                 Edit
-              </Link>
+              </Button>
 
-              <button
-                className="btn delete-btn"
+              <Button
+                variant="contained"
+                color="error"
                 onClick={handleDelete}
               >
                 Delete
-              </button>
+              </Button>
             </>
           )}
 
-          <button
-            className="btn"
+          <Button
+            variant="outlined"
             onClick={() => navigate("/")}
           >
             Back
-          </button>
+          </Button>
         </div>
       </div>
     </div>

@@ -1,3 +1,4 @@
+import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import { useCallback, useMemo } from "react";
 import StudentCard from "./StudentCard";
@@ -8,6 +9,7 @@ interface CardGridProps {
   loading: boolean;
   error: string;
   deleteStudent: (id: string) => Promise<void>;
+  isAuthenticated: boolean;
 }
 
 function CardGrid({
@@ -15,6 +17,7 @@ function CardGrid({
   loading,
   error,
   deleteStudent,
+  isAuthenticated,
 }: CardGridProps) {
   const handleDelete = useCallback(
     (id: string): void => {
@@ -41,11 +44,18 @@ function CardGrid({
 
   return (
     <div>
+      {isAuthenticated && (
       <div className="page-actions">
-        <Link to="/students/new" className="btn btn--submit">
+        
+        <Button
+          variant="contained"
+          component={Link}
+          to="/students/new"
+        >
           Add Student
-        </Link>
+        </Button>
       </div>
+      )}
 
       <div className="card-grid">
         {sortedStudents.map((student) => (
@@ -53,6 +63,7 @@ function CardGrid({
             key={student.id}
             student={student}
             onDelete={handleDelete}
+            isAuthenticated={isAuthenticated}
           />
         ))}
       </div>

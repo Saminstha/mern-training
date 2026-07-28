@@ -1,14 +1,17 @@
+import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import type { Student } from "../hooks/useStudents";
 
 interface StudentCardProps {
   student: Student;
   onDelete: (id: string) => void;
+  isAuthenticated: boolean;
 }
 
 function StudentCard({
   student,
   onDelete,
+  isAuthenticated,
 }: StudentCardProps) {
   return (
     <div className="card">
@@ -24,20 +27,32 @@ function StudentCard({
         <p className="card__role">{student.role}</p>
       </div>
 
-      <div className="card__footer">
-        <Link
+       <div
+        className={`card__footer ${
+          isAuthenticated
+            ? "card__footer--logged-in"
+            : "card__footer--logged-out"
+        }`}
+      >
+        
+        <Button
+          variant="contained"
+          component={Link}
           to={`/students/${student.id}`}
-          className="btn edit-btn"
+          size="small"
         >
           View Profile
-        </Link>
-
-        <button
-          className="btn delete-btn"
+        </Button>
+        {isAuthenticated && (
+        <Button
+          variant="contained"
+          color="error"
+          size="small"
           onClick={() => onDelete(student.id)}
         >
           Delete
-        </button>
+        </Button>
+        )}
       </div>
     </div>
   );

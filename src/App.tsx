@@ -43,6 +43,7 @@ function App() {
                 loading={loading}
                 error={error}
                 deleteStudent={deleteStudent}
+                isAuthenticated={isAuthenticated}
               />
             }
           />
