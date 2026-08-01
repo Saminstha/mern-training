@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import type { Student } from "../hooks/useStudents";
 
 interface AddStudentFormProps {
@@ -24,6 +26,22 @@ const AVATAR_OPTIONS = [
   "https://i.pravatar.cc/300?img=32",
 ];
 
+const studentSchema = z.object({
+  name: z
+    .string()
+    .min(2, "Name must be at least 2 characters"),
+
+  role: z
+    .string()
+    .min(2, "Role must be at least 2 characters"),
+
+  avatar: z
+    .string()
+    .min(1, "Please select an avatar"),
+});
+
+type StudentFormData = z.infer<typeof studentSchema>;
+
 function AddStudentForm({
   onAddStudent,
   onUpdateStudent,
@@ -36,7 +54,9 @@ function AddStudentForm({
     reset,
     watch,
     formState: { errors },
-  } = useForm<Omit<Student, "id">>({
+  } = useForm<StudentFormData>({
+    resolver: zodResolver(studentSchema),
+
     defaultValues: {
       name: "",
       role: "",
@@ -63,7 +83,7 @@ function AddStudentForm({
   const selectedAvatar = watch("avatar");
 
   async function onSubmit(
-    data: Omit<Student, "id">
+    data: StudentFormData
   ): Promise<void> {
     if (editingStudent) {
       await onUpdateStudent({
@@ -93,9 +113,7 @@ function AddStudentForm({
           <input
             type="text"
             placeholder="Student Name"
-            {...register("name", {
-              required: "Name is required",
-            })}
+            {...register("name")}
           />
 
           {errors.name && (
@@ -109,9 +127,7 @@ function AddStudentForm({
           <input
             type="text"
             placeholder="Role"
-            {...register("role", {
-              required: "Role is required",
-            })}
+            {...register("role")}
           />
 
           {errors.role && (
@@ -150,6 +166,12 @@ function AddStudentForm({
             </label>
           ))}
         </div>
+
+        {errors.avatar && (
+          <p className="form-error">
+            {errors.avatar.message}
+          </p>
+        )}
       </fieldset>
 
       <div className="form-buttons">
@@ -161,8 +183,6 @@ function AddStudentForm({
             ? "Update Student"
             : "Add Student"}
         </button>
-
-        
 
         {editingStudent && (
           <button

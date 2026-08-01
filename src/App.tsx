@@ -26,7 +26,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
+        <Route 
           element={
             <Layout
               isAuthenticated={isAuthenticated}
