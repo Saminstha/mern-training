@@ -385,3 +385,11 @@ body {
 .card__footer--logged-in {
   justify-content: flex-start;
 }
+
+.error {
+  color: #ef4444;
+  font-size: 14px;
+  margin-top: 6px;
+  margin-bottom: 12px;
+  font-weight: 500;
+}

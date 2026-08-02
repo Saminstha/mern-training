@@ -9,19 +9,21 @@ import AddStudentPage from "./routes/AddStudentPage";
 import StudentProfilePage from "./routes/StudentProfilePage";
 import EditStudentPage from "./routes/EditStudentPage";
 import NotFoundPage from "./routes/NotFoundPage";
+import { useAppSelector } from "./store/hooks";
 import "./App.css";
 
 function App() {
   const { isAuthenticated, login, logout } = useMockAuth();
 
   const {
-    students,
-    loading,
-    error,
     addStudent,
     deleteStudent,
     updateStudent,
   } = useStudents();
+
+  const { students, loading, error } = useAppSelector(
+    (state) => state.students
+  );
 
   return (
     <BrowserRouter>

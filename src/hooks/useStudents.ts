@@ -1,4 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import {
+  addStudent as addStudentAction,
+  deleteStudent as deleteStudentAction,
+  setError,
+  setLoading,
+  setStudents,
+  updateStudent as updateStudentAction,
+} from "../store/studentsSlice";
+import { useAppDispatch } from "../store/hooks";
 
 export interface Student {
   id: string;
@@ -10,12 +19,12 @@ export interface Student {
 const URL = "http://localhost:3000/students";
 
 function useStudents() {
-  const [students, setStudents] = useState<Student[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const fetchStudents = async () => {
+      dispatch(setLoading(true));
+
       try {
         const response = await fetch(URL);
 
@@ -24,20 +33,23 @@ function useStudents() {
         }
 
         const data: Student[] = await response.json();
-        setStudents(data);
+
+        dispatch(setStudents(data));
       } catch (err) {
         if (err instanceof Error) {
-          setError(err.message);
+          dispatch(setError(err.message));
         }
       } finally {
-        setLoading(false);
+        dispatch(setLoading(false));
       }
     };
 
     fetchStudents();
-  }, []);
+  }, [dispatch]);
 
-  const addStudent = async (student: Omit<Student, "id">) => {
+  const addStudent = async (
+    student: Omit<Student, "id">
+  ) => {
     try {
       const response = await fetch(URL, {
         method: "POST",
@@ -51,9 +63,10 @@ function useStudents() {
         throw new Error("Failed to add student");
       }
 
-      const newStudent: Student = await response.json();
+      const newStudent: Student =
+        await response.json();
 
-      setStudents((prev) => [...prev, newStudent]);
+      dispatch(addStudentAction(newStudent));
     } catch (error) {
       console.log(error);
     }
@@ -69,44 +82,41 @@ function useStudents() {
         throw new Error("Failed to delete student");
       }
 
-      setStudents((prev) =>
-        prev.filter((student) => student.id !== id)
-      );
+      dispatch(deleteStudentAction(id));
     } catch (error) {
       console.log(error);
     }
   };
 
-  const updateStudent = async (updatedStudent: Student) => {
+  const updateStudent = async (
+    updatedStudent: Student
+  ) => {
     try {
-      const response = await fetch(`${URL}/${updatedStudent.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedStudent),
-      });
+      const response = await fetch(
+        `${URL}/${updatedStudent.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedStudent),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to update student");
       }
 
-      const student: Student = await response.json();
+      const student: Student =
+        await response.json();
 
-      setStudents((prev) =>
-        prev.map((s) =>
-          s.id === student.id ? student : s
-        )
-      );
+      dispatch(updateStudentAction(student));
     } catch (error) {
       console.log(error);
     }
   };
 
   return {
-    students,
-    loading,
-    error,
     addStudent,
     deleteStudent,
     updateStudent,
