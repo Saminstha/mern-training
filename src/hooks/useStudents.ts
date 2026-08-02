@@ -16,7 +16,7 @@ export interface Student {
   avatar: string;
 }
 
-const URL = "http://localhost:3000/students";
+const URL = `${import.meta.env.VITE_API_URL}/students`;
 
 function useStudents() {
   const dispatch = useAppDispatch();
