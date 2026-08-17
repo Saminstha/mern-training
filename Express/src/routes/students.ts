@@ -1,25 +1,28 @@
 import { Router } from "express";
-import type { NewStudent } from "../types/studentTypes.ts";
+import {
+    listStudents,
+    getStudentById,
+    createStudent,
+    updateStudent,
+    patchStudent,
+    deleteStudent,
+} from "../controllers/studentController";
+
+import { validate } from "../middleware/validate";
+import {createStudentSchema, patchStudentSchema, studentIdSchema} from "../validation/studentSchema";
+
 const router = Router();
 
-router.get('/', (req, res) => {
-    
-    res.json({ message: 'Hello from student route' });
-    
-});
+router.get("/", listStudents);
 
-router.post('/', (req, res) => {
-    console.log('body proccessed for post req',req.body);
-    res.status(201).json({ message: 'Student data received successfully' });
-});
+router.get("/:id", validate({params: studentIdSchema}), getStudentById);
 
-router.put('/:id', (req, res) => {
-    const { id } = req.params;
-    const { name, role, avatar } = req.body as NewStudent;  
-});
+router.post("/", validate({body: createStudentSchema}), createStudent);
 
-router.get('/:id', (req, res) => {
-    res.json({ message: 'Hello from student id route' });
-});
+router.put("/:id", validate({params: studentIdSchema, body: createStudentSchema}), updateStudent);
+
+router.patch("/:id", validate({params: studentIdSchema, body: patchStudentSchema}), patchStudent);
+
+router.delete("/:id", validate({params: studentIdSchema}), deleteStudent);
 
 export default router;
